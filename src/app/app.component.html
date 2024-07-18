@@ -2,29 +2,82 @@
     <div class="row">
         <h2>Dynamic Form</h2>
     </div>
-    <div *ngIf="dynamicForm && formConfig" class="row">
-        
+    <div *ngIf="dynamicForm && formConfig" class="mt-4">
+
         <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
             <div *ngFor="let field of formConfig.fields">
 
-                <div class="mb-3">
-                    <label [for]="field.name" class="form-label">{{ field.label }}</label>
-                    <ng-container [ngSwitch]="field.type">
-                        <select *ngSwitchCase="'dropdown'" class="form-select" [id]="field.name"  [formControlName]="field.name">
-                            <option *ngFor="let option of field.options" [value]="option.value">{{ option.label }}</option>
-                        </select>
+                <ng-container [ngSwitch]="field.type">
+
+                    <div *ngSwitchCase="'dropdown'" class="d-flex flex-row">
+                        <p>{{field.label}}</p>
+                        <mat-form-field>
+                            <mat-select [formControlName]="field.name">
+                                <mat-option *ngFor="let option of field.options"
+                                    [value]="option.value">{{option.label}}</mat-option>
+                            </mat-select>
+                            <ng-container [ngTemplateOutlet]="errorMsgTemplate"
+                                [ngTemplateOutletContext]="{field,error:'required'}"></ng-container>
+
+                        </mat-form-field>
+                    </div>
+
+                    <ng-container *ngSwitchCase="'text'" class="d-flex flex-row">
+                        <mat-label>{{field.label}}</mat-label>
+                        <mat-form-field>
+
+                            <input type="text" matInput [formControlName]="field.name">
+
+                        </mat-form-field>
+                        <ng-container [ngTemplateOutlet]="errorMsgTemplate"
+                            [ngTemplateOutletContext]="{field}"></ng-container>
+
                     </ng-container>
-                    
-                </div>
-                
+
+                    <ng-container *ngSwitchCase="'date'" class="d-flex flex-row">
+                        <mat-label>{{field.label}}</mat-label>
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker">
+                            <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <ng-container [ngTemplateOutlet]="errorMsgTemplate"
+                            [ngTemplateOutletContext]="{field}"></ng-container>
+
+                    </ng-container>
+                </ng-container>
+
+
+
+
+
                 <div
                     *ngIf="dynamicForm.get(field.name)?.invalid && (dynamicForm.get(field.name)?.dirty || dynamicForm.get(field.name)?.touched)">
                     <small *ngIf="dynamicForm.get(field.name)?.errors?.['required']">{{ field.label }} is
                         required</small>
                 </div>
+
             </div>
             <button type="submit" class="btn btn-primary" [disabled]="dynamicForm.invalid">Submit</button>
         </form>
+
+        <ng-template #errorMsgTemplate let-field="field" let-error="error">
+
+            <ng-container [ngSwitch]="error">
+                <p>{{field.label}} is required</p>
+                <!-- <ng-container *ngSwitchCase="'required'">
+                    <p>{{field.label}} is required</p>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'minlength'">
+                    <p>{{field.label}} minimum length</p>
+                </ng-container> -->
+
+
+            </ng-container>
+
+        </ng-template>
 
     </div>
 

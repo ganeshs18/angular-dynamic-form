@@ -1,8 +1,8 @@
 export interface FormConfig {
     fields: Field[]
-  }
-  
-  export interface Field {
+}
+
+export interface Field {
     type: string
     label: string
     name: string
@@ -10,23 +10,23 @@ export interface FormConfig {
     options: Option[]
     validators: Validators
     dependsOn: DependsOn
-  }
-  
-  export interface Option {
+}
+
+export interface Option {
     label: string
     value: string
-  }
-  
-  export interface Validators {
+}
+
+export interface Validators {
     required: boolean
-  }
-  
-  export interface DependsOn {
+}
+
+export interface DependsOn {
     field: string
-    mappings: Mappings
-  }
-  
-  export interface Mappings {
+    mappings: { [key: string]: any }
+}
+
+export interface Mappings {
     "0-2"?: string[]
     "3-12"?: string[]
     "13-19"?: string[]
@@ -39,5 +39,4 @@ export interface FormConfig {
     "young-adult"?: string[]
     adult?: string[]
     senior?: string[]
-  }
-  
+}
