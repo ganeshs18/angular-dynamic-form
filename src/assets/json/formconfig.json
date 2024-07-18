@@ -15,10 +15,7 @@
             "name": "ageGroup",
             "value": "",
             "options": [
-                {
-                    "label": "Select Age Group",
-                    "value": ""
-                },
+               
                 {
                     "label": "Infant",
                     "value": "infant"
@@ -65,10 +62,7 @@
             "name": "ageRange",
             "value": "",
             "options": [
-                {
-                    "label": "Select Age Range",
-                    "value": ""
-                },
+                
                 {
                     "label": "0-2 years",
                     "value": "0-2"
@@ -127,7 +121,9 @@
             "name": "duration",
             "value": "",
             "validators": {
+                "required":true,
                 "min": 1
+               
             }
         }
     ]

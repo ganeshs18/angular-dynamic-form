@@ -2,65 +2,59 @@
     <div class="row">
         <h2>Dynamic Form</h2>
     </div>
-    <div *ngIf="dynamicForm && formConfig" class="mt-4">
+    <div *ngIf="dynamicForm && formConfig" class="mt-4 ">
 
-        <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
-            <div *ngFor="let field of formConfig.fields">
+        <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()" class="row ">
+            <div *ngFor="let field of formConfig.fields" class="col-lg-3 ">
 
                 <ng-container [ngSwitch]="field.type">
 
-                    <div *ngSwitchCase="'dropdown'" class="d-flex flex-row">
-                        <p>{{field.label}}</p>
-                        <mat-form-field>
-                            <mat-select [formControlName]="field.name">
+                    <div *ngSwitchCase="'dropdown'"  >
+                        <p >{{field.label}}</p>
+                        <mat-form-field   appearance="outline"> 
+                            <mat-select  [formControlName]="field.name">
                                 <mat-option *ngFor="let option of field.options"
                                     [value]="option.value">{{option.label}}</mat-option>
                             </mat-select>
-
                         </mat-form-field>
-
                     </div>
 
-                    <ng-container *ngSwitchCase="'text'" class="d-flex flex-row">
-                        <mat-label>{{field.label}}</mat-label>
-                        <mat-form-field>
-
+                    <ng-container *ngSwitchCase="'text'"  >
+                         <p >{{field.label}}</p>
+                        <mat-form-field appearance="outline" >
                             <input type="text" matInput [formControlName]="field.name">
-
                         </mat-form-field>
-
-
                     </ng-container>
 
-                    <ng-container *ngSwitchCase="'number'" class="d-flex flex-row">
-                        <mat-label>{{field.label}}</mat-label>
-                        <mat-form-field>
-
+                    <ng-container *ngSwitchCase="'number'"  >
+                         <p >{{field.label}}</p>
+                        <mat-form-field appearance="outline" >
                             <input type="number" matInput [formControlName]="field.name">
-
                         </mat-form-field>
-
-
                     </ng-container>
 
 
                     <ng-container *ngSwitchCase="'date'">
-                        <mat-label>{{field.label}}</mat-label>
-                        <mat-form-field>
-                            <input matInput [formControlName]="field.name" [placeholder]="'choose '+ field.label" [matDatepicker]="picker">
-                            <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                         <p >{{field.label}}</p>
+                        <mat-form-field appearance="outline" >
+                            <input matInput [formControlName]="field.name" [placeholder]="'choose '+ field.label"
+                                [matDatepicker]="picker">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-
-
                     </ng-container>
+
                 </ng-container>
-                <ng-container *ngIf="dynamicForm.get(field.name)?.errors && dynamicForm.get(field.name)?.touched" [ngTemplateOutlet]="errorMsgTemplate"
+
+                <ng-container *ngIf="dynamicForm.get(field.name)?.errors && dynamicForm.get(field.name)?.touched"
+                    [ngTemplateOutlet]="errorMsgTemplate"
                     [ngTemplateOutletContext]="{field,errors:getErrorList(field.name)}"></ng-container>
 
             </div>
-            <button type="submit" class="btn btn-primary" >Submit</button>
+            <div class="d-flex flex-row-reverse">
+                <button type="submit" class="btn btn-primary me-4">Submit</button>
+            </div>
+           
         </form>
 
         <ng-template #errorMsgTemplate let-field="field" let-errors="errors">
