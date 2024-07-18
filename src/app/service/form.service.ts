@@ -11,6 +11,6 @@ export class FormService {
 
 
   getFormConfig() {
-    return this.http.get<FormConfig>("/assets/json/formconfig.json")
+    return this.http.get<FormConfig>("/angular-dynamic-form/assets/json/formconfig.json")
   }
 }
