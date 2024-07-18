@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Field, FormConfig } from './models/form-config.model';
 import { FormService } from './service/form.service';
 import { Subscription } from 'rxjs';
@@ -32,6 +32,23 @@ export class AppComponent implements OnInit, OnDestroy {
       this.formConfig.fields.reduce((acc, cur) => {
         const control = new FormControl(cur.value || '');
 
+       if(cur.validators) Object.keys(cur.validators as any).forEach(validator=>{
+          switch (validator) {
+            case 'required':
+              control.addValidators(Validators.required);
+              break;
+              case 'min':
+               if(cur.validators?.['min']) control.addValidators(Validators.min(cur.validators?.['min']));
+              break;
+              case 'max':
+                if(cur.validators?.['max']) control.addValidators(Validators.min(cur.validators?.['max']));
+              break;
+          
+            default:
+              break;
+          }
+        })
+       
 
 
         return Object.assign(acc, { [cur.name]: control })
@@ -45,10 +62,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   handleFieldDependency(field: Field) {
-    const dependencyField = this.dynamicForm.get(field.dependsOn.field);
+    const dependencyField = this.dynamicForm.get(field?.dependsOn?.field || '');
     if (dependencyField) {
       const sub = dependencyField.valueChanges.subscribe(selectedValue => {
-        const mappedValue = field.dependsOn.mappings[selectedValue];
+        const mappedValue = field?.dependsOn?.mappings[selectedValue];
         if (mappedValue) {
           this.dynamicForm.get(field.name)?.setValue(mappedValue, { emitEvent: false });
         }
@@ -64,6 +81,10 @@ export class AppComponent implements OnInit, OnDestroy {
       return
     }
     alert("Form Submitted Successfully")
+  }
+
+  getErrorList(fieldName: string): any[] {
+    return Object.keys(this.dynamicForm.get(fieldName)?.errors || {});
   }
 
   ngOnDestroy(): void {
@@ -82,15 +103,15 @@ export class AppComponent implements OnInit, OnDestroy {
       endDateControl.valueChanges.subscribe((endDate: Date) => {
 
         if (startDateControl.value) {
-          const days = Math.round(( endDate.getTime() -(startDateControl.value as Date).getTime()) / (1000 * 60 * 60 * 24));
+          const days = Math.round((endDate.getTime() - (startDateControl.value as Date).getTime()) / (1000 * 60 * 60 * 24));
           durationControl.setValue(days < 0 ? 0 : days, { emitEvent: false })
         }
 
       })
       durationControl.valueChanges.subscribe((duration: number) => {
         if (startDateControl.value) {
-       
-          
+
+
           const result = new Date(startDateControl.value);
           result.setDate(result.getDate() + duration);
           endDateControl.setValue(result, { emitEvent: false })

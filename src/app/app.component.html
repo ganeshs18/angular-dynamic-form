@@ -16,11 +16,9 @@
                                 <mat-option *ngFor="let option of field.options"
                                     [value]="option.value">{{option.label}}</mat-option>
                             </mat-select>
-                            
 
                         </mat-form-field>
-                        <ng-container [ngTemplateOutlet]="errorMsgTemplate"
-                                [ngTemplateOutletContext]="{field,error:'required'}"></ng-container>
+
                     </div>
 
                     <ng-container *ngSwitchCase="'text'" class="d-flex flex-row">
@@ -30,8 +28,7 @@
                             <input type="text" matInput [formControlName]="field.name">
 
                         </mat-form-field>
-                        <ng-container [ngTemplateOutlet]="errorMsgTemplate"
-                            [ngTemplateOutletContext]="{field}"></ng-container>
+
 
                     </ng-container>
 
@@ -42,51 +39,49 @@
                             <input type="number" matInput [formControlName]="field.name">
 
                         </mat-form-field>
-                        <ng-container [ngTemplateOutlet]="errorMsgTemplate"
-                            [ngTemplateOutletContext]="{field}"></ng-container>
+
 
                     </ng-container>
-                    
 
-                    <ng-container *ngSwitchCase="'date'" >
+
+                    <ng-container *ngSwitchCase="'date'">
                         <mat-label>{{field.label}}</mat-label>
                         <mat-form-field>
-                            <input matInput [formControlName]="field.name" [matDatepicker]="picker">
+                            <input matInput [formControlName]="field.name" [placeholder]="'choose '+ field.label" [matDatepicker]="picker">
                             <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-                        <ng-container [ngTemplateOutlet]="errorMsgTemplate"
-                            [ngTemplateOutletContext]="{field}"></ng-container>
+
 
                     </ng-container>
                 </ng-container>
-
-
-
-
-
-                <div
-                    *ngIf="dynamicForm.get(field.name)?.invalid && (dynamicForm.get(field.name)?.dirty || dynamicForm.get(field.name)?.touched)">
-                    <small *ngIf="dynamicForm.get(field.name)?.errors?.['required']">{{ field.label }} is
-                        required</small>
-                </div>
+                <ng-container *ngIf="dynamicForm.get(field.name)?.errors && dynamicForm.get(field.name)?.touched" [ngTemplateOutlet]="errorMsgTemplate"
+                    [ngTemplateOutletContext]="{field,errors:getErrorList(field.name)}"></ng-container>
 
             </div>
-            <button type="submit" class="btn btn-primary" [disabled]="dynamicForm.invalid">Submit</button>
+            <button type="submit" class="btn btn-primary" >Submit</button>
         </form>
 
-        <ng-template #errorMsgTemplate let-field="field" let-error="error">
+        <ng-template #errorMsgTemplate let-field="field" let-errors="errors">
 
-            <ng-container [ngSwitch]="error">
-                <p>{{field.label}} is required</p>
-                <!-- <ng-container *ngSwitchCase="'required'">
-                    <p>{{field.label}} is required</p>
+            <ng-container [ngSwitch]="errors[0]">
+
+                <ng-container *ngSwitchCase="'required'">
+                    <p class="error-msg">{{field.label}} is required</p>
                 </ng-container>
 
-                <ng-container *ngSwitchCase="'minlength'">
-                    <p>{{field.label}} minimum length</p>
-                </ng-container> -->
+                <ng-container *ngSwitchCase="'min'">
+                    <p class="error-msg">{{field.label}} must be more than
+                        {{dynamicForm.get(field.name)?.errors?.[errors[0]]?.['min']}}
+                    </p>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'max'">
+                    <p class="error-msg">{{field.label}} must be less than
+                        {{dynamicForm.get(field.name)?.errors?.[errors[0]]?.['max']}}
+                    </p>
+                </ng-container>
 
 
             </ng-container>
