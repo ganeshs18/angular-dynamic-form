@@ -117,6 +117,12 @@
             "label": "End Date",
             "name": "endDate",
             "value": ""
+        },
+        {
+            "type": "number",
+            "label": "Duration",
+            "name": "duration",
+            "value": ""
         }
     ]
 }
