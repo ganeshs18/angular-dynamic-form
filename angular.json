@@ -42,7 +42,8 @@
           },
           "configurations": {
             "production": {
-              "baseHref": "/angular-dynamic-form",
+              "outputPath":"dist/angular-dynamic-form",
+              "baseHref": "/angular-dynamic-form/",
               "budgets": [
                 {
                   "type": "initial",
