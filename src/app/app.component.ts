@@ -38,7 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
       }, {})
     );
 
-    this.formConfig.fields.filter(el => !!el.dependsOn).forEach(field => this.handleFieldDependency(field))
+    this.formConfig.fields.filter(el => !!el.dependsOn).forEach(field => this.handleFieldDependency(field));
+    this.calculateDaysInBetweenOrEndDate();
   }
 
 
@@ -69,5 +70,33 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.valuChangesSubs.length) {
       this.valuChangesSubs.forEach(sub => sub.unsubscribe());
     }
+  }
+
+  calculateDaysInBetweenOrEndDate() {
+    const startDateControl = this.dynamicForm.get('startDate');
+    const endDateControl = this.dynamicForm.get('endDate');
+    const durationControl = this.dynamicForm.get('duration');
+
+    if (startDateControl && endDateControl && durationControl) {
+
+      endDateControl.valueChanges.subscribe((endDate: Date) => {
+
+        if (startDateControl.value) {
+          const days = Math.round(( endDate.getTime() -(startDateControl.value as Date).getTime()) / (1000 * 60 * 60 * 24));
+          durationControl.setValue(days < 0 ? 0 : days, { emitEvent: false })
+        }
+
+      })
+      durationControl.valueChanges.subscribe((duration: number) => {
+        if (startDateControl.value) {
+       
+          
+          const result = new Date(startDateControl.value);
+          result.setDate(result.getDate() + duration);
+          endDateControl.setValue(result, { emitEvent: false })
+        }
+      })
+    }
+
   }
 }

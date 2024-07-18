@@ -16,10 +16,11 @@
                                 <mat-option *ngFor="let option of field.options"
                                     [value]="option.value">{{option.label}}</mat-option>
                             </mat-select>
-                            <ng-container [ngTemplateOutlet]="errorMsgTemplate"
-                                [ngTemplateOutletContext]="{field,error:'required'}"></ng-container>
+                            
 
                         </mat-form-field>
+                        <ng-container [ngTemplateOutlet]="errorMsgTemplate"
+                                [ngTemplateOutletContext]="{field,error:'required'}"></ng-container>
                     </div>
 
                     <ng-container *ngSwitchCase="'text'" class="d-flex flex-row">
@@ -34,10 +35,23 @@
 
                     </ng-container>
 
-                    <ng-container *ngSwitchCase="'date'" class="d-flex flex-row">
+                    <ng-container *ngSwitchCase="'number'" class="d-flex flex-row">
                         <mat-label>{{field.label}}</mat-label>
                         <mat-form-field>
-                            <input matInput [matDatepicker]="picker">
+
+                            <input type="number" matInput [formControlName]="field.name">
+
+                        </mat-form-field>
+                        <ng-container [ngTemplateOutlet]="errorMsgTemplate"
+                            [ngTemplateOutletContext]="{field}"></ng-container>
+
+                    </ng-container>
+                    
+
+                    <ng-container *ngSwitchCase="'date'" >
+                        <mat-label>{{field.label}}</mat-label>
+                        <mat-form-field>
+                            <input matInput [formControlName]="field.name" [matDatepicker]="picker">
                             <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
