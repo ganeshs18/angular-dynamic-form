@@ -78,7 +78,9 @@ export class AppComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.dynamicForm.invalid) {
       this.dynamicForm.markAllAsTouched();
+     
       return
+      
     }
     alert("Form Submitted Successfully")
   }
