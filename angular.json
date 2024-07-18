@@ -24,6 +24,7 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/angular-dynamic-form",
+            "baseHref": "/angular-dynamic-form/",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -43,7 +44,7 @@
           "configurations": {
             "production": {
               "outputPath":"dist/angular-dynamic-form",
-              "baseHref": "/angular-dynamic-form/",
+              
               "budgets": [
                 {
                   "type": "initial",
