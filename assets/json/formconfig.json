@@ -1,63 +1,122 @@
 {
     "fields": [
-      {
-        "type": "dropdown",
-        "label": "Age Group",
-        "name": "ageGroup",
-        "value": "",
-        "options": [
-          { "label": "Select Age Group", "value": "" },
-          { "label": "Infant", "value": "infant" },
-          { "label": "Child", "value": "child" },
-          { "label": "Teenager", "value": "teenager" },
-          { "label": "Young Adult", "value": "young-adult" },
-          { "label": "Adult", "value": "adult" },
-          { "label": "Senior", "value": "senior" }
-        ],
-        "validators": {
-          "required": true
+        {
+            "type": "text",
+            "label": "Name",
+            "name": "name",
+            "value": ""
         },
-        "dependsOn": {
-          "field": "ageRange",
-          "mappings": {
-            "0-2": ["infant"],
-            "3-12": ["child"],
-            "13-19": ["teenager"],
-            "20-39": ["young-adult"],
-            "40-59": ["adult"],
-            "60+": ["senior"]
-          }
-        }
-      },
-      {
-        "type": "dropdown",
-        "label": "Age Range",
-        "name": "ageRange",
-        "value": "",
-        "options": [
-          { "label": "Select Age Range", "value": "" },
-          { "label": "0-2 years", "value": "0-2" },
-          { "label": "3-12 years", "value": "3-12" },
-          { "label": "13-19 years", "value": "13-19" },
-          { "label": "20-39 years", "value": "20-39" },
-          { "label": "40-59 years", "value": "40-59" },
-          { "label": "60+ years", "value": "60+" }
-        ],
-        "validators": {
-          "required": true
+        {
+            "type": "dropdown",
+            "label": "Age Group",
+            "name": "ageGroup",
+            "value": "",
+            "options": [
+                {
+                    "label": "Select Age Group",
+                    "value": ""
+                },
+                {
+                    "label": "Infant",
+                    "value": "infant"
+                },
+                {
+                    "label": "Child",
+                    "value": "child"
+                },
+                {
+                    "label": "Teenager",
+                    "value": "teenager"
+                },
+                {
+                    "label": "Young Adult",
+                    "value": "young-adult"
+                },
+                {
+                    "label": "Adult",
+                    "value": "adult"
+                },
+                {
+                    "label": "Senior",
+                    "value": "senior"
+                }
+            ],
+            "validators": {
+                "required": true
+            },
+            "dependsOn": {
+                "field": "ageRange",
+                "mappings": {
+                    "0-2": "infant",
+                    "3-12": "child",
+                    "13-19": "teenager",
+                    "20-39": "young-adult",
+                    "40-59": "adult",
+                    "60+": "senior"
+                }
+            }
         },
-        "dependsOn": {
-          "field": "ageGroup",
-          "mappings": {
-            "infant": ["0-2"],
-            "child": ["3-12"],
-            "teenager": ["13-19"],
-            "young-adult": ["20-39"],
-            "adult": ["40-59"],
-            "senior": ["60+"]
-          }
+        {
+            "type": "dropdown",
+            "label": "Age Range",
+            "name": "ageRange",
+            "value": "",
+            "options": [
+                {
+                    "label": "Select Age Range",
+                    "value": ""
+                },
+                {
+                    "label": "0-2 years",
+                    "value": "0-2"
+                },
+                {
+                    "label": "3-12 years",
+                    "value": "3-12"
+                },
+                {
+                    "label": "13-19 years",
+                    "value": "13-19"
+                },
+                {
+                    "label": "20-39 years",
+                    "value": "20-39"
+                },
+                {
+                    "label": "40-59 years",
+                    "value": "40-59"
+                },
+                {
+                    "label": "60+ years",
+                    "value": "60+"
+                }
+            ],
+            "validators": {
+                "required": true
+            },
+            "dependsOn": {
+                "field": "ageGroup",
+                "mappings": {
+                    "infant": "0-2",
+                    "child": "3-12",
+                    "teenager": "13-19",
+                    "young-adult": "20-39",
+                    "adult": "40-59",
+                    "senior": "60+"
+                }
+            }
+        },
+        {
+            "type": "date",
+            "label": "Start Date",
+            "name": "startDate",
+            "value": ""
+        },
+        {
+            "type": "date",
+            "label": "End Date",
+            "name": "endDate",
+            "value": ""
         }
-      }
     ]
-  }
-  
+}
