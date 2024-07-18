@@ -42,6 +42,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/angular-dynamic-form",
               "budgets": [
                 {
                   "type": "initial",
